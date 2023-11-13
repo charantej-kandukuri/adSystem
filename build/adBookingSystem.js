@@ -51,12 +51,12 @@ class AdBookingSystem {
         });
     }
     runCampaign() {
-        console.log('Campaign Started ...');
+        console.info('Campaign Started ...');
         this.initializeBudgetAllocation(this.adBudget);
         while (true) {
-            console.log('budgetAllocation ::::::::', this.budgetAllocation);
+            console.info('budgetAllocation ::::::::', this.budgetAllocation);
             // cond 1. If both have balance of zero or less, exit program.
-            let balanceRemaining = Object.values(this.budgetAllocation).reduce((acc, item) => acc + item, 0);
+            let balanceRemaining = this.getRemainingBalance();
             if (balanceRemaining <= 0) {
                 console.log('Both streams exhausted. Exiting program.');
                 break;

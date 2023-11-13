@@ -10,16 +10,21 @@ describe('AdBookingSystem', () => {
         adSystem = new adBookingSystem_1.AdBookingSystem(streams, adBudget, thresholdPercentage);
     });
     it('should share the budget evenly bw services', () => {
-        adSystem.initializeBudgetAllocation(100000);
+        adSystem.initializeBudgetAllocation(adSystem.adBudget);
         const expectedBudgetAllocation = { stream1: 50000, stream2: 50000 };
         expect(adSystem.budgetAllocation).toEqual(expectedBudgetAllocation);
+    });
+    it('should return the remaining balance', () => {
+        adSystem.budgetAllocation['stream1'] = 1;
+        adSystem.budgetAllocation['stream2'] = 1;
+        expect(adSystem.getRemainingBalance()).toBe(2);
     });
     it('should return the percent of the givent amount', () => {
         expect(adSystem.percentageCalulator(100, 1)).toBe(1);
     });
     it('should run the ad campaign and maintain proper balance', () => {
         const logSpy = jest.spyOn(global.console, 'log');
-        adSystem.initializeBudgetAllocation(100000);
+        adSystem.initializeBudgetAllocation(adSystem.adBudget);
         adSystem.runCampaign();
         expect(logSpy).toHaveBeenCalledWith('Initial Budget Allocation:', expect.any(Object));
         expect(logSpy).toHaveBeenCalledWith('Final Budget Allocation:', expect.any(Object));

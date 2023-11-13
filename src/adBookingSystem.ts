@@ -59,17 +59,17 @@ export class AdBookingSystem {
 	}
 
     runCampaign(): void {
-        console.log('Campaign Started ...')
+        console.info('Campaign Started ...')
         this.initializeBudgetAllocation(this.adBudget);
 		while (true) {
-			console.log('budgetAllocation ::::::::', this.budgetAllocation);
+			console.info('budgetAllocation ::::::::', this.budgetAllocation);
 			// cond 1. If both have balance of zero or less, exit program.
-			let balanceRemaining = Object.values(this.budgetAllocation).reduce((acc, item) => acc + item, 0);
+			let balanceRemaining = this.getRemainingBalance();
 			if (balanceRemaining <= 0) {
 				console.log('Both streams exhausted. Exiting program.');
 				break;
 			}
-            
+
 			// cond 2. Check if alteast one of them have balance of less than 5%, rebalance both streams to have equal balance
 			let liveStreams = Object.values(this.budgetAllocation).filter((item) => item < this.budgetThreshold).length;
 
