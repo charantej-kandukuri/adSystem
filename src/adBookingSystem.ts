@@ -74,7 +74,7 @@ export class AdBookingSystem {
 			let liveStreams = Object.values(this.budgetAllocation).filter((item) => item < this.budgetThreshold).length;
 
 			if (liveStreams > 0 && liveStreams < this.streamTypes.length) {
-				console.log('Rebalance when atleast one stream balance is less than 5%');
+				console.log('Rebalance when atleast one stream balance is less than budgetThreshold');
 				this.rebalanceBudget();
 			}
 

@@ -59,15 +59,13 @@ describe('AdBookingSystem', () => {
             expect(logSpy).toHaveBeenCalledWith('Final Budget Allocation:', expect.any(Object));
             logSpy.mockRestore();
         });
-        it('should rebalance when atleast one stream balance is less than 5% but not all', () => {
-            const logSpy = jest.spyOn(global.console, 'log');
-            adSystem.budgetThreshold = 5;
+        it('should rebalance when atleast one stream balance is less than threshold budget but not all', () => {
+            adSystem.budgetThreshold = 1;
             adSystem.budgetAllocation['stream1'] = adSystem.budgetThreshold - 1;
             adSystem.budgetAllocation['stream2'] = adSystem.budgetThreshold + 1;
-            adSystem.runCampaign();
-            expect(logSpy).toHaveBeenCalled();
-            expect(logSpy).toHaveBeenCalledWith('Rebalance when atleast one stream balance is less than 5%');
-            logSpy.mockRestore();
+            adSystem.rebalanceBudget();
+            const expectedBudgetAllocation = { stream1: 1, stream2: 1 };
+            expect(adSystem.budgetAllocation).toEqual(expectedBudgetAllocation);
         });
         it('should reset the threshold values on rebalancing', () => {
             adSystem.budgetAllocation['stream1'] = 0;
